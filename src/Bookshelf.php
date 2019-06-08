@@ -18,6 +18,7 @@ final class Bookshelf implements MessageRepository
     public function persist(Message ...$messages): void
     {
         foreach ($messages as $message) {
+            /** @var AggregateRootId $aggregateRootId */
             $aggregateRootId = $message->aggregateRootId();
 
             Assert::that($aggregateRootId)->notNull('Tried to persist a message with no identity.');

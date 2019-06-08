@@ -14,17 +14,15 @@ final class BookId implements AggregateRootId
     /** @var UuidInterface */
     private $id;
 
-    private function __construct()
+    private function __construct(UuidInterface $id)
     {
+        $this->id = $id;
     }
 
     public static function fromString(string $aggregateRootId) : AggregateRootId
     {
         Assert::that($aggregateRootId)->uuid();
-
-        $instance = new self();
-        $instance->id = Uuid::fromString($aggregateRootId);
-        return $instance;
+        return new self(Uuid::fromString($aggregateRootId));
     }
 
     /** @return string */

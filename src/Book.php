@@ -11,9 +11,10 @@ final class Book implements AggregateRoot
 {
     use AggregateRootBehaviour;
 
+    /** @var bool */
     private $onShelf = true;
 
-    public function checkOut()
+    public function checkOut(): void
     {
         if (!$this->onShelf) {
             throw new \DomainException('That book is not currently available, please pick another.');
@@ -21,7 +22,7 @@ final class Book implements AggregateRoot
         $this->recordThat(new BookWasCheckedOut());
     }
 
-    public function checkIn()
+    public function checkIn(): void
     {
         if ($this->onShelf) {
             throw new \DomainException('This book is already checked in.');
@@ -29,12 +30,12 @@ final class Book implements AggregateRoot
         $this->recordThat(new BookWasCheckedIn());
     }
 
-    private function applyBookWasCheckedOut()
+    private function applyBookWasCheckedOut(): void
     {
         $this->onShelf = false;
     }
 
-    private function applyBookWasCheckedIn()
+    private function applyBookWasCheckedIn(): void
     {
         $this->onShelf = true;
     }
