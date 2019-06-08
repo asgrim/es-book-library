@@ -11,6 +11,6 @@ final class Librarian implements MessageDispatcher
 {
     public function dispatch(Message ...$messages): void
     {
-        echo 'uhh';
+        // would tell other systems that the book is checked out for example
     }
 }

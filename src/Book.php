@@ -15,11 +15,17 @@ final class Book implements AggregateRoot
 
     public function checkOut()
     {
+        if (!$this->onShelf) {
+            throw new \DomainException('don\'t have that book you ass');
+        }
         $this->recordThat(new BookWasCheckedOut());
     }
 
     public function checkIn()
     {
+        if ($this->onShelf) {
+            throw new \DomainException('we already have that, go away you filthy human');
+        }
         $this->recordThat(new BookWasCheckedIn());
     }
 
