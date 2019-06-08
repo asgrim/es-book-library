@@ -16,7 +16,7 @@ final class Book implements AggregateRoot
     public function checkOut()
     {
         if (!$this->onShelf) {
-            throw new \DomainException('don\'t have that book you ass');
+            throw new \DomainException('That book is not currently available, please pick another.');
         }
         $this->recordThat(new BookWasCheckedOut());
     }
@@ -24,7 +24,7 @@ final class Book implements AggregateRoot
     public function checkIn()
     {
         if ($this->onShelf) {
-            throw new \DomainException('we already have that, go away you filthy human');
+            throw new \DomainException('This book is already checked in.');
         }
         $this->recordThat(new BookWasCheckedIn());
     }

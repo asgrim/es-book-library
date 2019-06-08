@@ -20,11 +20,10 @@ final class Bookshelf implements MessageRepository
         foreach ($messages as $message) {
             $aggregateRootId = $message->aggregateRootId();
 
-            Assert::that($aggregateRootId)->notNull('Wtf are you doing, no identity you ass');
+            Assert::that($aggregateRootId)->notNull('Tried to persist a message with no identity.');
 
             $this->events[$aggregateRootId->toString()][] = $message;
         }
-        return;
     }
 
     public function retrieveAll(AggregateRootId $id) : Generator
