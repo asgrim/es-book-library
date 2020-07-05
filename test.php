@@ -11,14 +11,19 @@ namespace
     use Asgrim\Bookshelf;
     use Asgrim\Librarian;
     use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+    use EventSauce\EventSourcing\InMemoryMessageRepository;
 
     $aggregateRootRepository = new ConstructingAggregateRootRepository(
         Book::class,
-        new Bookshelf(),
+        new InMemoryMessageRepository(),
         new Librarian()
     );
 
-    $id = BookId::fromString('ffa930bc-0c62-494c-a29d-1eda3ca0b804');
+    $id = BookId::new();
+
+    $book = Book::newBookWithId($id);
+
+    $aggregateRootRepository->persist($book);
 
     /** @var Book $book */
     $book = $aggregateRootRepository->retrieve($id);

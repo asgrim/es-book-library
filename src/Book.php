@@ -1,18 +1,24 @@
-<?php
+<?php /** @noinspection ContractViolationInspection */
 
 declare(strict_types=1);
 
 namespace Asgrim;
 
 use EventSauce\EventSourcing\AggregateRoot;
-use EventSauce\EventSourcing\AggregateRootBehaviour;
+use EventSauce\EventSourcing\AggregateRootBehaviourWithRequiredHistory;
 
 final class Book implements AggregateRoot
 {
-    use AggregateRootBehaviour;
+    use AggregateRootBehaviourWithRequiredHistory;
 
-    /** @var bool */
-    private $onShelf = true;
+    private bool $onShelf = false;
+
+    public static function newBookWithId(BookId $bookId): self
+    {
+        $book = new self($bookId);
+        $book->checkIn();
+        return $book;
+    }
 
     public function checkOut(): void
     {
@@ -32,11 +38,13 @@ final class Book implements AggregateRoot
 
     private function applyBookWasCheckedOut(): void
     {
+        echo "checked out\n";
         $this->onShelf = false;
     }
 
     private function applyBookWasCheckedIn(): void
     {
+        echo "checked in\n";
         $this->onShelf = true;
     }
 }
